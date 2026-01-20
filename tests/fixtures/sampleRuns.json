@@ -1,0 +1,173 @@
+{
+    "validRun": {
+        "run_id": "test-run-001",
+        "agent_name": "customer-support-bot",
+        "framework": "langchain",
+        "started_at": "2026-01-20T08:00:00Z",
+        "ended_at": "2026-01-20T08:02:30Z",
+        "environment": "local",
+        "tags": [
+            "customer-support",
+            "test"
+        ]
+    },
+    "validSteps": [
+        {
+            "run_id": "test-run-001",
+            "step_id": "step-001",
+            "step_type": "llm_call",
+            "timestamp": "2026-01-20T08:00:05Z",
+            "model": "gpt-4",
+            "tokens_prompt": 150,
+            "tokens_completion": 75,
+            "cost_usd": 0.0045,
+            "status": "success"
+        },
+        {
+            "run_id": "test-run-001",
+            "step_id": "step-002",
+            "step_type": "tool_call",
+            "timestamp": "2026-01-20T08:00:10Z",
+            "tool_name": "search_docs",
+            "latency_ms": 320,
+            "status": "success"
+        }
+    ],
+    "hallucinationScenario": {
+        "run": {
+            "run_id": "hallucination-run-001",
+            "agent_name": "policy-summarizer",
+            "framework": "custom",
+            "started_at": "2026-01-20T09:00:00Z",
+            "ended_at": "2026-01-20T09:01:45Z",
+            "environment": "prod"
+        },
+        "steps": [
+            {
+                "run_id": "hallucination-run-001",
+                "step_id": "step-001",
+                "step_type": "memory_read",
+                "timestamp": "2026-01-20T09:00:02Z",
+                "status": "success"
+            },
+            {
+                "run_id": "hallucination-run-001",
+                "step_id": "step-002",
+                "step_type": "llm_call",
+                "timestamp": "2026-01-20T09:00:05Z",
+                "model": "gpt-4",
+                "tokens_prompt": 800,
+                "tokens_completion": 200,
+                "cost_usd": 0.024,
+                "status": "success"
+            },
+            {
+                "run_id": "hallucination-run-001",
+                "step_id": "step-003",
+                "step_type": "llm_call",
+                "timestamp": "2026-01-20T09:00:45Z",
+                "model": "gpt-4",
+                "tokens_prompt": 850,
+                "tokens_completion": 180,
+                "cost_usd": 0.0228,
+                "status": "success"
+            }
+        ]
+    },
+    "loopScenario": {
+        "run": {
+            "run_id": "loop-run-001",
+            "agent_name": "data-fetcher",
+            "framework": "crewai",
+            "started_at": "2026-01-20T10:00:00Z",
+            "environment": "staging"
+        },
+        "steps": [
+            {
+                "run_id": "loop-run-001",
+                "step_id": "step-001",
+                "step_type": "tool_call",
+                "timestamp": "2026-01-20T10:00:05Z",
+                "tool_name": "fetch_customer_data",
+                "latency_ms": 5000,
+                "status": "error",
+                "error_type": "timeout"
+            },
+            {
+                "run_id": "loop-run-001",
+                "step_id": "step-002",
+                "step_type": "retry",
+                "timestamp": "2026-01-20T10:00:11Z",
+                "tool_name": "fetch_customer_data",
+                "latency_ms": 5000,
+                "status": "error",
+                "error_type": "timeout"
+            },
+            {
+                "run_id": "loop-run-001",
+                "step_id": "step-003",
+                "step_type": "retry",
+                "timestamp": "2026-01-20T10:00:17Z",
+                "tool_name": "fetch_customer_data",
+                "latency_ms": 5000,
+                "status": "error",
+                "error_type": "timeout"
+            },
+            {
+                "run_id": "loop-run-001",
+                "step_id": "step-004",
+                "step_type": "retry",
+                "timestamp": "2026-01-20T10:00:23Z",
+                "tool_name": "fetch_customer_data",
+                "latency_ms": 5000,
+                "status": "error",
+                "error_type": "timeout"
+            }
+        ]
+    },
+    "costExplosionScenario": {
+        "run": {
+            "run_id": "cost-explosion-run-001",
+            "agent_name": "report-generator",
+            "framework": "langchain",
+            "started_at": "2026-01-20T11:00:00Z",
+            "ended_at": "2026-01-20T11:05:00Z",
+            "environment": "prod"
+        },
+        "steps": [
+            {
+                "run_id": "cost-explosion-run-001",
+                "step_id": "step-001",
+                "step_type": "llm_call",
+                "timestamp": "2026-01-20T11:00:30Z",
+                "model": "gpt-4",
+                "tokens_prompt": 2000,
+                "tokens_completion": 1500,
+                "cost_usd": 0.105,
+                "status": "success"
+            },
+            {
+                "run_id": "cost-explosion-run-001",
+                "step_id": "step-002",
+                "step_type": "llm_call",
+                "timestamp": "2026-01-20T11:01:45Z",
+                "model": "gpt-4",
+                "tokens_prompt": 2100,
+                "tokens_completion": 1480,
+                "cost_usd": 0.1074,
+                "status": "success"
+            },
+            {
+                "run_id": "cost-explosion-run-001",
+                "step_id": "step-003",
+                "step_type": "llm_call",
+                "timestamp": "2026-01-20T11:03:00Z",
+                "model": "gpt-4",
+                "tokens_prompt": 2050,
+                "tokens_completion": 1520,
+                "cost_usd": 0.1071,
+                "status": "success"
+            }
+        ]
+    }
+}
