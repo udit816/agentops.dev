@@ -4,36 +4,44 @@
 
 **We help teams understand why AI agents fail, loop, hallucinate, or overspend — in plain English.**
 
+---
+
 ## 🎯 What This Is
 
-Agent Run & Failure Intelligence converts unreadable agent logs into step-by-step narratives with root-cause analysis. When your LangChain, CrewAI, or custom agent fails, we explain:
+Agent Run & Failure Intelligence converts unreadable agent logs into clear, step-by-step narratives with root-cause analysis. When your **LangChain**, **CrewAI**, or custom agent fails, we explain:
 
-- **What** failed
-- **Why** it failed  
-- **Where** in the run it failed
-- **Cost impact** of the failure
+* **What** failed
+* **Why** it failed
+* **Where** in the run it failed
+* **Cost impact** of the failure
 
-**Outcome:** Explain any agent failure to another engineer in under 60 seconds.
+**Outcome:** Explain any agent failure to another engineer in under **60 seconds**.
+
+---
 
 ## 📖 Documentation
 
-- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete integration guide with SDK examples
-- **[QUICKSTART.md](QUICKSTART.md)** - Quick setup and testing
-- **[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)** - Technical architecture and design decisions
+* **[USER_GUIDE.md](USER_GUIDE.md)** — Complete integration guide with SDK examples
+* **[QUICKSTART.md](QUICKSTART.md)** — Fast local setup and testing
+* **[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)** — Architecture, contracts, and design decisions
 
-## ✅ V1 Complete
+---
 
-**All 4 Weeks Delivered:**
-- ✅ **Week 1**: Ingestion API + immutable event store
-- ✅ **Week 2**: Run reconstruction + signal extraction  
-- ✅ **Week 3**: Failure classification + plain-English post-mortems
-- ✅ **Week 4**: Next.js UI + production ready
+## ✅ V1 Status
 
-**Try it now:**
+**All 4 Weeks Delivered**
+
+* ✅ **Week 1:** Ingestion API + immutable event store
+* ✅ **Week 2:** Run reconstruction + signal extraction
+* ✅ **Week 3:** Failure classification + plain‑English post‑mortems
+* ✅ **Week 4:** UI + production readiness
+
+### Try it now
+
 1. `docker-compose up -d && npm run setup-db`
-2. `npm run dev` (backend on port 3000)
-3. `cd client && npm run dev` (frontend on port 3001)
-4. Open http://localhost:3001 to view runs
+2. `npm run dev` (backend on **[http://localhost:3000](http://localhost:3000)**)
+3. `cd client && npm run dev` (frontend on **[http://localhost:3001](http://localhost:3001)**)
+4. Open **[http://localhost:3001](http://localhost:3001)** to explore runs
 
 ---
 
@@ -41,76 +49,80 @@ Agent Run & Failure Intelligence converts unreadable agent logs into step-by-ste
 
 ### Prerequisites
 
-- Node.js 20+ and npm
-- PostgreSQL 15+
+* Node.js **20+**
+* PostgreSQL **15+**
 
 ### 1. Install Dependencies
 
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 ### 2. Configure Environment
 
-Create a \`.env\` file:
+Create a `.env` file:
 
-\`\`\`bash
+```bash
 cp .env.example .env
-\`\`\`
+```
 
-Edit \`.env\` with your PostgreSQL credentials:
+Edit `.env` with your PostgreSQL credentials:
 
-\`\`\`env
+```env
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=agentops
 DB_USER=postgres
 DB_PASSWORD=your_password_here
-\`\`\`
+```
 
 ### 3. Setup Database
 
-\`\`\`bash
+```bash
 npm run setup-db
-\`\`\`
+```
 
 This will:
-- Create tables (agent_runs, agent_steps, api_keys)
-- Generate your first API key (save it!)
+
+* Create tables: `agent_runs`, `agent_steps`, `api_keys`
+* Generate your first API key (**save it**)
 
 ### 4. Start the Server
 
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
-Server runs on \`http://localhost:3000\`
+Server runs on **[http://localhost:3000](http://localhost:3000)**
 
 ### 5. Test the API
 
-**Health check:**
-\`\`\`bash
-curl http://localhost:3000/health
-\`\`\`
+#### Health check
 
-**Ingest a run:**
-\`\`\`bash
-curl -X POST http://localhost:3000/api/v1/ingest/run \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
+```bash
+curl http://localhost:3000/health
+```
+
+#### Ingest a run
+
+```bash
+curl -X POST http://localhost:3000/api/v1/ingest/run \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
   -d '{
     "run_id": "test-001",
     "agent_name": "my-agent",
     "framework": "langchain",
     "started_at": "2026-01-20T08:00:00Z"
   }'
-\`\`\`
+```
 
-**Ingest a step:**
-\`\`\`bash
-curl -X POST http://localhost:3000/api/v1/ingest/step \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json" \\
+#### Ingest a step
+
+```bash
+curl -X POST http://localhost:3000/api/v1/ingest/step \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
   -d '{
     "run_id": "test-001",
     "step_id": "step-001",
@@ -122,7 +134,7 @@ curl -X POST http://localhost:3000/api/v1/ingest/step \\
     "cost_usd": 0.0045,
     "status": "success"
   }'
-\`\`\`
+```
 
 ---
 
@@ -130,18 +142,22 @@ curl -X POST http://localhost:3000/api/v1/ingest/step \\
 
 ### Authentication
 
-All endpoints require an API key via:
-- **Header:** \`Authorization: Bearer YOUR_API_KEY\`
-- **Query:** \`?api_key=YOUR_API_KEY\`
+All endpoints require an API key via **one** of the following:
+
+* **Header:** `Authorization: Bearer YOUR_API_KEY`
+* **Query:** `?api_key=YOUR_API_KEY`
+
+---
 
 ### Endpoints
 
-#### POST /api/v1/ingest/run
+#### POST `/api/v1/ingest/run`
 
 Ingest run metadata.
 
-**Request body:**
-\`\`\`json
+**Request body**
+
+```json
 {
   "run_id": "string (required)",
   "agent_name": "string (required)",
@@ -149,18 +165,21 @@ Ingest run metadata.
   "started_at": "ISO-8601 timestamp (required)",
   "ended_at": "ISO-8601 timestamp (optional)",
   "environment": "local | staging | prod (optional)",
-  "tags": ["string"] (optional)
+  "tags": ["string"]
 }
-\`\`\`
+```
 
-**Response:** 202 Accepted
+**Response:** `202 Accepted`
 
-#### POST /api/v1/ingest/step
+---
 
-Ingest step event.
+#### POST `/api/v1/ingest/step`
 
-**Request body:**
-\`\`\`json
+Ingest a single step event.
+
+**Request body**
+
+```json
 {
   "step_id": "string (required)",
   "run_id": "string (required)",
@@ -175,36 +194,41 @@ Ingest step event.
   "tokens_completion": "number (optional)",
   "cost_usd": "number (optional)"
 }
-\`\`\`
+```
 
-**Response:** 202 Accepted
+**Response:** `202 Accepted`
 
-#### POST /api/v1/webhook/batch
+---
 
-Batch webhook ingestion.
+#### POST `/api/v1/webhook/batch`
 
-**Request body:**
-\`\`\`json
+Batch ingestion via webhook.
+
+**Request body**
+
+```json
 {
-  "runs": [/* array of run objects */],
-  "steps": [/* array of step objects */]
+  "runs": ["run objects"],
+  "steps": ["step objects"]
 }
-\`\`\`
+```
 
-**Response:** 202 Accepted
+**Response:** `202 Accepted`
+
+---
 
 ### Rate Limits
 
-- **1000 requests per hour** per API key
-- **100KB max payload size**
+* **1000 requests / hour / API key**
+* **100 KB max payload size**
 
 ### Error Codes
 
-- \`400\` - Bad Request (schema validation failed)
-- \`401\` - Unauthorized (missing/invalid API key)
-- \`413\` - Payload Too Large
-- \`429\` - Too Many Requests (rate limit exceeded)
-- \`500\` - Internal Server Error
+* `400` — Bad Request (schema validation failed)
+* `401` — Unauthorized (missing or invalid API key)
+* `413` — Payload Too Large
+* `429` — Too Many Requests
+* `500` — Internal Server Error
 
 ---
 
@@ -212,7 +236,7 @@ Batch webhook ingestion.
 
 ### Commands
 
-\`\`\`bash
+```bash
 npm run dev           # Start dev server with hot reload
 npm run build         # Build for production
 npm run start         # Start production server
@@ -221,73 +245,78 @@ npm run generate-key  # Generate new API key
 npm test              # Run tests
 npm run lint          # Lint code
 npm run format        # Format code
-\`\`\`
+```
 
 ### Generate API Keys
 
-\`\`\`bash
+```bash
 npm run generate-key -- --user="your-user-id"
-\`\`\`
+```
 
-### Project Structure
+---
 
-\`\`\`
+## 📁 Project Structure
+
+```text
 agentops.dev/
 ├── src/
 │   ├── api/
-│   │   ├── middleware/    # Auth, rate limit, error handling
-│   │   └── routes/        # Ingestion endpoints
+│   │   ├── middleware/      # Auth, rate limiting, error handling
+│   │   └── routes/          # Ingestion endpoints
 │   ├── db/
-│   │   ├── client.ts      # PostgreSQL connection
-│   │   └── schema.sql     # Database schema
+│   │   ├── client.ts        # PostgreSQL connection
+│   │   └── schema.sql       # Database schema
 │   ├── services/
-│   │   └── eventStore.ts  # Immutable event persistence
+│   │   └── eventStore.ts    # Immutable event persistence
 │   ├── validation/
-│   │   └── schemas.ts     # Zod schemas
+│   │   └── schemas.ts       # Zod schemas
 │   ├── utils/
-│   │   └── apiKey.ts      # Key generation/hashing
-│   ├── server.ts          # Express app setup
-│   └── index.ts           # Entry point
+│   │   └── apiKey.ts        # API key generation / hashing
+│   ├── server.ts            # Express app setup
+│   └── index.ts             # Entry point
 ├── scripts/
-│   ├── setup-db.ts        # Database initialization
+│   ├── setup-db.ts
 │   └── generate-api-key.ts
 ├── tests/
-│   └── fixtures/          # Sample data
-└── project_context.md     # Source of truth
-\`\`\`
+│   └── fixtures/
+└── PROJECT_CONTEXT.md       # Source of truth
+```
 
 ---
 
 ## 📋 SDK Contract (v1)
 
-Per \`PROJECT_CONTEXT.md\`, this contract is **stable for v1**.
+Per `PROJECT_CONTEXT.md`, this contract is **stable for v1**.
 
-### Required Fields (per run)
-- \`run_id\` (string)
-- \`agent_name\` (string)
-- \`framework\` (enum)
-- \`started_at\` (ISO-8601)
+### Required Fields — Run
 
-### Required Fields (per step)
-- \`step_id\` (string)
-- \`step_type\` (enum)
-- \`timestamp\` (ISO-8601)
+* `run_id` (string)
+* `agent_name` (string)
+* `framework` (enum)
+* `started_at` (ISO‑8601)
 
-### Excluded (v1)
-- Raw prompts/responses (unless opt-in)
-- PII fields
-- Secrets/credentials
+### Required Fields — Step
+
+* `step_id` (string)
+* `step_type` (enum)
+* `timestamp` (ISO‑8601)
+
+### Explicitly Excluded (v1)
+
+* Raw prompts / responses (unless opt‑in)
+* PII
+* Secrets or credentials
 
 ---
 
 ## 🗓️ Roadmap
 
-- **Week 1** ✅ - Foundations & Ingestion
-- **Week 2** ✅ - Reconstruction & Signals
-- **Week 3** ✅ - Classification & Explanation
-- **Week 4** ✅ - UI, Polish, Release
+* **Week 1:** Foundations & ingestion ✅
+* **Week 2:** Reconstruction & signals ✅
+* **Week 3:** Classification & explanation ✅
+* **Week 4:** UI, polish, release ✅
 
-**V1 is complete!** See [USER_GUIDE.md](USER_GUIDE.md) for integration instructions.
+**V1 is complete.** See **USER_GUIDE.md** for integration details.
 
 ---
 
@@ -299,4 +328,6 @@ MIT
 
 ## 🤝 Contributing
 
-This is a MicroSaaS in active development. For questions or issues, please refer to \`PROJECT_CONTEXT.md\`.
+This is a MicroSaaS in active development.
+
+For questions, issues, or design rationale, see **PROJECT_CONTEXT.md**.
